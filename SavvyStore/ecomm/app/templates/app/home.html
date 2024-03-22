@@ -1,0 +1,111 @@
+{% extends "app/base.html" %}
+{% load static%}
+{% block title %}Home{% endblock title %}
+
+{% block banner-slider %}
+<div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-inner">
+      <div class="carousel-item active">
+        <img src="{% static "app/images/banner/b1.png"%}" class="d-block w-100" alt="banner image">
+      </div>
+      <div class="carousel-item">
+        <img src="{% static "app/images/banner/b2.png"%}" class="d-block w-100" alt="banner image">
+      </div>
+      <div class="carousel-item">
+        <img src="{% static "app/images/banner/b3.png"%}" class="d-block w-100" alt="banner image">
+      </div>
+      <div class="carousel-item">
+        <img src="{% static "app/images/banner/b4.png"%}" class="d-block w-100" alt="banner image">
+      </div>
+    </div>
+  </div>
+{% endblock banner-slider %}
+
+{% block information %}
+<div class ="container heading">
+    <div class="row text-center p-5 text-white border-bottom shadow">
+        <h1>Products</h1>
+        <small class=" fs-5">Discover a world of fashion at Savvy Store, where we offer a diverse array of pret, western wear, fragrances, and accessories for women. Elevate your fashion game with quality and elegance. Unleash your inner fashionista, express your unique style, and redefine your fashion rules at Savvy Store. Shop now and experience fashion-forward excellence. With a commitment to quality and the latest trends, we're here to empower your individuality and help you make a statement through your style.</small>
+    </div>
+</div>
+{% endblock information %}
+
+{% block main-content %}
+<div class="body">
+    <div class="container">
+        <h2 class="text-center">Fashion & Style</h2>
+        <br><br>
+        <div class="row container">
+            <div class="col-md-4 col-sm-4 mi-gi wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.6s" style="animation-duration: 1s; animation-delay: 0.6s; animation-name: none;">
+                <div class="goodnesssec wear pret">
+                    <a href="#">
+                        <div class="goodnessseccont text-center">
+                          <img src="{% static "app/images/product/pret.jpg"%}" class="img-responsive center-block" alt="">
+                          <p class="mlkpro">Pret</p>
+                       </div>
+                    </a>
+                  </div>      
+            </div>
+
+            <div class="col-md-4 col-sm-4 mi-gi wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.6s" style="animation-duration: 1s; animation-delay: 0.6s; animation-name: none;">
+              <div class="goodnesssec wear foot">
+                  <a href="#">
+                      <div class="goodnessseccont text-center">
+                        <img src="{% static "app/images/product/footwear.jpg"%}" class="img-responsive center-block" alt="">
+                        <p class="mlkpro">Footwear</p>
+                      </div>
+                  </a>
+                </div>
+            </div>
+
+            <div class="col-md-4 col-sm-4 mi-gi wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.6s" style="animation-duration: 1s; animation-delay: 0.6s; animation-name: none;">
+              <div class="goodnesssec wear frag">
+                  <a href="#">
+                      <div class="goodnessseccont text-center">
+                        <img src="{% static "app/images/product/perfume.jpg"%}" class="img-responsive center-block" alt="">
+                        <p class="mlkpro">Fragrances</p>
+                      </div>
+                  </a>
+               </div>  
+              </div>
+          </div>
+          <br><br>
+
+          <div class="row container">
+            <div class="col-md-4 col-sm-4 mi-gi wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.6s" style="animation-duration: 1s; animation-delay: 0.6s; animation-name: none;">
+              <div class="goodnesssec wear west">
+                  <a href="#">
+                      <div class="goodnessseccont text-center">
+                        <img src="{% static "app/images/product/western.jpg"%}" class="img-responsive center-block" alt="">
+                        <p class="mlkpro">Western</p>
+                      </div>
+                  </a>
+                </div>
+            </div>
+
+            <div class="col-md-4 col-sm-4 mi-gi wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.6s" style="animation-duration: 1s; animation-delay: 0.6s; animation-name: none;">
+              <div class="goodnesssec wear formal">
+                  <a href="#">
+                      <div class="goodnessseccont text-center">
+                        <img src="{% static "app/images/product/formal.jpg"%}" class="img-responsive center-block" alt="">
+                        <p class="mlkpro">Formals</p>
+                      </div>
+                  </a>
+              </div>
+            </div>
+
+            <div class="col-md-4 col-sm-4 mi-gi wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.6s" style="animation-duration: 1s; animation-delay: 0.6s; animation-name: none;">
+              <div class="goodnesssec wear access">
+                  <a href="#">
+                      <div class="goodnessseccont text-center">
+                        <img src="{% static "app/images/product/accessories.jpg"%}" class="img-responsive center-block" alt="">
+                        <p class="mlkpro">Accessories</p>
+                      </div>
+                  </a>
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>
+    <br/><br/>
+{% endblock main-content %}
