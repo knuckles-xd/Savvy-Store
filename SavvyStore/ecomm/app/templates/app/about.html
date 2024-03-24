@@ -1,0 +1,40 @@
+{% extends "app/base.html" %}
+{% load static%}
+{% block title %}About{% endblock title %}
+
+{% block banner-slider %}
+<div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-inner">
+      <div class="carousel-item active">
+        <img src="{% static "app/images/banner/b1.png"%}" class="d-block w-100" alt="banner image">
+      </div>
+      <div class="carousel-item">
+        <img src="{% static "app/images/banner/b2.png"%}" class="d-block w-100" alt="banner image">
+      </div>
+      <div class="carousel-item">
+        <img src="{% static "app/images/banner/b3.png"%}" class="d-block w-100" alt="banner image">
+      </div>
+      <div class="carousel-item">
+        <img src="{% static "app/images/banner/b4.png"%}" class="d-block w-100" alt="banner image">
+      </div>
+    </div>
+  </div>
+{% endblock banner-slider %}
+
+{% block main-content %}
+<div class="container heading mt-2">
+
+    <h2 class=" text-center text-white">About Us</h2>
+    <div class="row ">
+        <p class="fs-4 text-center text-white"> Welcome to Savvy Store, your fashion destination since 2022 and licensed in 2023. We offer a curated selection of the latest trends and timeless classics, all with a commitment to quality and customer satisfaction. Join us in celebrating individuality and embracing a fashion-forward world where everyone feels confident. Thank you for choosing Savvy Store, and we look forward to serving you on your stylish journey!
+        </p>
+    </div>
+    <br>
+    <h2 class="text-center heading text-white">Objectives</h2>
+    <div class="row">
+       <p class="fs-4 text-center text-white">At Savvy, our mission is simple: to empower you to embrace your individuality and style. We believe that fashion is a powerful form of self-expression and self-confidence. Our goal is to make quality, stylish clothing and accessories accessible to everyone, allowing you to curate your wardrobe with pieces that reflect your personality, mood, and aspirations.
+       </p>
+    </div>
+<div>
+<br><br>
+{% endblock main-content %}
