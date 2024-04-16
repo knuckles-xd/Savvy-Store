@@ -1,0 +1,43 @@
+{% extends "app/base.html" %}
+{% load static %}
+{% block title %}Profile{% endblock title %}
+
+{% block main-content %}
+    <div class="container my-5">
+        <div class="row">
+            <h3>Welcome <span class="text-capitalize">{{Saad}}</span></h3>
+            <div class="col-sm-2 border-end">
+                <ul class="list-unstyled">
+                    <li class="d-grid"><a href="#" class="btn btn-success">Create Profile</a></li>
+                    <li class="d-grid"><a href="#" class="btn">Personal Information</a></li>
+                </ul>
+            </div>
+            <div class="col-sm-5 offset-sm-2">
+                <div class="form-f">
+                <form action="" method="post" novalidate class="shadow p-5">
+                {% csrf_token %}
+                {% for fm in form %}
+                    {{fm.label_tag}} {{fm}} <small class="text-danger fw-bold">{{fm.errors|striptags}}</small>
+                {% endfor %}
+                <div class="col-12 mt-3">
+                    <button type="submit" class="btn btn-warning">Submit</button>
+                </div>
+                {% if form.non_field_erros%}
+                    {% for error in form.non_field_erros %}
+                    <p class="alert alert-danger my-3">{{error}}</p>
+                    {% endfor %}
+                {% endif %}
+                {% if messages %}
+                    {%for msg in messages %}
+                        <div class="alert alert-{{msg.tags}} fw-bold" role="alert">
+                            {{msg}}
+                        </div>
+                    {% endfor %}
+                {%endif%}
+                </form>
+                </div>
+                <br>
+            </div>
+        </div>
+    </div>
+{% endblock main-content %}
