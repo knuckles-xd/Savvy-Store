@@ -68,6 +68,10 @@ class ProfileView(View):
             messages.warning(request,"Sorry! Error in Data")
         return render(request,"app/profile.html",locals())
 
+def address(request):
+    add = Customer.objects.filter(user=request.user)
+    return render(request,"app/address.html",locals())
+
 
 def message(request):
     return render(request,'app/message.html',locals())
