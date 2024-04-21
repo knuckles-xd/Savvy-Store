@@ -1,7 +1,7 @@
 
 from django import forms
 from .models import Customer
-from django.contrib.auth.forms import UserCreationForm,AuthenticationForm,UsernameField,PasswordResetForm
+from django.contrib.auth.forms import UserCreationForm,AuthenticationForm,UsernameField,PasswordResetForm,MyPasswordChangeForm,MySetPasswordForm
 from django.contrib.auth.models import User
 
 
@@ -36,3 +36,12 @@ class CustomerProfileForm(forms.ModelForm):
             'mobile':forms.NumberInput(attrs={'class':'form-control'}),
             'zipcode':forms.NumberInput(attrs={'class':'form-control'}),
         }
+
+class MyPasswordChangeForm(PasswordChangeForm):
+    old_password = forms.CharField(label='Old Password',widget=forms.PasswordInput(attrs={'autofocus': 'True', 'autocomplete': 'current-password', 'class': 'form-control'}))
+    new_password1 = forms.CharField(label='New Password',widget=forms.PasswordInput(attrs={'autocomplete': 'current-password', 'class': 'form-control'}))
+    new_password2 = forms.CharField(label='Confirm Password',widget=forms.PasswordInput(attrs={'autocomplete': 'current-password', 'class': 'form-control'}))
+
+class MySetPasswordForm(SetPasswordForm):
+    new_password1 = forms.CharField(label='New Password', widget=forms.PasswordInput(attrs={'autocomplete':'current-password','class':'form-control'}))
+    new_password2 = forms.CharField(label='Confirm New Password', widget=forms.PasswordInput(attrs={'autocomplete':'current-password','class':'form-control'}))
