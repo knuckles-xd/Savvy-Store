@@ -26,10 +26,11 @@
           </button>
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              {% if request.user.is_authenticated %}
               <li class="nav-item {% if request.path == '/' %}active{% endif %}">
                 <a class="nav-link text-white" aria-current="page" href="/">Home</a>
               </li>
-              <li class="nav-item dropdown ">
+              <li class="nav-item dropdown {% if request.path == '/category/AC' or request.path == '/category/NA' or request.path == '/category/PR' or request.path == '/category/WS' or request.path == '/category/FG' or request.path == '/category/FT' or request.path == '/category/FR' %}active{% endif %}">
                 <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                   Categories
                 </a>
@@ -44,10 +45,10 @@
                  
                 </ul>
               </li>
-              <li class="nav-item ">
+              <li class="nav-item {% if request.path == '/about/' %}active{% endif %}">
                 <a class="nav-link text-white" href="{% url 'about'%}">About Us</a>
               </li>
-              <li class="nav-item ">
+              <li class="nav-item {% if request.path == '/contact/' or request.path == '/message/' %}active{% endif %}">
                 <a class="nav-link text-white" href="{% url 'contact'%}">Contact Us</a>
               </li>
             </ul>
@@ -60,12 +61,12 @@
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             <li class="nav-item dropdown mx-2 nav-item {% if request.path == '/address/' or request.path == '/profile/' or request.path == '/passwordchange/' or request.path == '/passwordchangedone/' or request.path == '/orders/' %}active{% endif %}">
               <a class="nav-link dropdown-toggle text-white" href="#" id="profileDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                <span class="text-capitalize">Saad</span></a>
+                <span class="text-capitalize">{{request.user}}</span></a>
               <ul class="dropdown-menu" aria-labelledby="profileDropdown">
-                  <li ><a class="dropdown-item" href="#"><img src="{% static "app/images/icons/profile.png"%}"  alt="profile">Profile</a></li>
-                  <li><a class="dropdown-item" href="#"><img src="{% static "app/images/icons/order.png"%}"  alt="profile">Orders </a></li>
-                  <li><a class="dropdown-item" href="#"><img src="{% static "app/images/icons/edit.png"%}"  alt="profile">Change Password</a></li>
-                  <li><a class="dropdown-item" href="#"><img src="{% static "app/images/icons/logout.png"%}"  alt="profile">Logout</a></li>
+                  <li ><a class="dropdown-item" href="{% url 'profile' %}"><img src="{% static "app/images/icons/profile.png"%}"  alt="profile">Profile</a></li>
+                  <li><a class="dropdown-item" href="#"><img src="{% static "app/images/icons/order.png"%}"  alt="orders">Orders </a></li>
+                  <li><a class="dropdown-item" href="{% url 'passwordchange' %}"><img src="{% static "app/images/icons/edit.png"%}"  alt="passchange">Change Password</a></li>
+                  <li><a class="dropdown-item" href="{% url 'logout' %}"><img src="{% static "app/images/icons/logout.png"%}"  alt="logout">Logout</a></li>
               </ul>
             </li>
             <li class="nav-item mx-2 ">
@@ -74,12 +75,14 @@
             <li class="nav-item mx-2 ">
               <a href="#" class="nav-link "><img src="{% static "app/images/icons/heart.png"%}"  alt="cart"></a>
             </li>
-            <li class="nav-item mx-2">
-              <a href="#" class="nav-link text-white">Login</a>
+            {% else %}
+            <li class="nav-item mx-2 {% if request.path == '/accounts/login/' %}active{% endif %}">
+              <a href="{% url 'login' %}" class="nav-link text-white">Login</a>
             </li>
-            <li class="nav-item mx-2">
-              <a href="#" class="nav-link text-white ">Registration</a>
+            <li class="nav-item mx-2 {% if request.path == '/registration/' %}active{% endif %}">
+              <a href="{% url 'customerregistration' %}" class="nav-link text-white ">Registration</a>
             </li>
+            {% endif %}
 
           </ul>
         </div>
