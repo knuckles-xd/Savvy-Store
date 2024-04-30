@@ -119,8 +119,13 @@ USE_TZ = True
 STATIC_URL = 'static/'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR/'media'
+LOGIN_REDIRECT_URL = '/address/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+
+RAZOR_KEY_ID = "rzp_test_8P99Up5TZDp9Hc"
+RAZOR_KEY_SECRET = "6l1qsmoWH0vTYi40rf9R99DE"
