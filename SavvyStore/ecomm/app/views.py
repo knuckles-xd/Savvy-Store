@@ -1,10 +1,12 @@
 from django.shortcuts import render, redirect
 from django.views import View
-from . models import Product, Customer , Cart
+from . models import Product, Customer , Cart , OrderPlaced , Payment
 from . forms import CustomerRegistrationForm, CustomerProfileForm
 from django.contrib import messages
 from django.db.models import Q
 from django.http import JsonResponse
+import razorpay
+from django.conf import settings
 
 # Create your views here.
 def home(request):
@@ -116,6 +118,35 @@ def show_cart(request):
     amount = round(amount,2)
     totalamount = amount + 10
     return render(request, 'app/addtocart.html',locals())
+
+class checkout(View):
+    def get(self,request):
+        user = request.user
+        add = Customer.objects.filter(user=user)
+        cart_items=Cart.objects.filter(user=user)
+        amount = 0
+        for i in cart_items:
+            amount += (i.product.discountPrice * i.quantity)
+        amount = round(amount,2)
+        totalamount = amount + 10
+        razoramount = int(totalamount * 100)
+        client = razorpay.Client(auth=(settings.RAZOR_KEY_ID, settings.RAZOR_KEY_SECRET))
+        data = { "amount" : razoramount, "currency" : "INR", "receipt" : "order_receiptid_11"}
+        payment_response = client.order.create(data=data)
+        print(payment_response)
+        {'id': 'order_N45UeS6VdYhoDG', 'entity': 'order', 'amount': 17768, 'amount_paid': 0, 'amount_due': 17768, 'currency': 'USD', 'receipt': 'order_receiptid_11', 'offer_id': None, 'status': 'created', 'attempts': 0, 'notes': [], 'created_at': 1700780100}
+        order_id = payment_response['id']
+        order_status = payment_response['status']
+        if order_status == 'created':
+            payment = Payment(
+                user = user,
+                amount = totalamount,
+                razorpay_order_id = order_id,
+                razorpay_payment_status = order_status,
+            )
+            payment.save()
+        return render(request,'app/checkout.html',locals())
+
 
 def plus_cart(request):
     if request.method == 'GET':
