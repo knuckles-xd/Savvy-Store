@@ -10,6 +10,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous"> 
     <link rel="stylesheet" href="{% static 'app/css/style.css' %}" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
     
 
     <title> Savvy Store | {% block title %} {% endblock title %}</title>
@@ -63,17 +64,17 @@
               <a class="nav-link dropdown-toggle text-white" href="#" id="profileDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                 <span class="text-capitalize">{{request.user}}</span></a>
               <ul class="dropdown-menu" aria-labelledby="profileDropdown">
-                  <li ><a class="dropdown-item" href="{% url 'profile' %}"><img src="{% static "app/images/icons/profile.png"%}"  alt="profile">Profile</a></li>
-                  <li><a class="dropdown-item" href="#"><img src="{% static "app/images/icons/order.png"%}"  alt="orders">Orders </a></li>
-                  <li><a class="dropdown-item" href="{% url 'passwordchange' %}"><img src="{% static "app/images/icons/edit.png"%}"  alt="passchange">Change Password</a></li>
+                  <li><a class="dropdown-item" href="{% url 'profile' %}"><img src="{% static "app/images/icons/profile.png"%}"  alt="profile">Profile</a></li>
+                  <li><a class="dropdown-item" href="{% url 'orders' %}"><img src="{% static "app/images/icons/order.png"%}"  alt="orders">Orders </a></li>
+                  <li><a class="dropdown-item" href="{% url 'passwordchange' %}"><img src="{% static "app/images/icons/edit.png"%}"  alt="orders">Change Password</a></li>
                   <li><a class="dropdown-item" href="{% url 'logout' %}"><img src="{% static "app/images/icons/logout.png"%}"  alt="logout">Logout</a></li>
               </ul>
             </li>
-            <li class="nav-item mx-2 ">
-              <a href="#" class="nav-link "><img src="{% static "app/images/icons/shopping.png"%}"  alt="cart"></a>
+            <li class="nav-item mx-2 {% if request.path == '/cart/' %}active{% endif %}">
+              <a href="{% url 'showcart' %}" class="nav-link "><img src="{% static "app/images/icons/shopping.png"%}"  alt="cart"> <span class="badge bg-danger">{% if totalitem > 0 %} {{totalitem}} {% endif %}</span></a>
             </li>
-            <li class="nav-item mx-2 ">
-              <a href="#" class="nav-link "><img src="{% static "app/images/icons/heart.png"%}"  alt="cart"></a>
+            <li class="nav-item mx-2 {% if request.path == '/wishlist/' %}active{% endif %}">
+              <a href="#" class="nav-link "><img src="{% static "app/images/icons/heart.png"%}"  alt="wishlist"> <span class="badge bg-danger">{% if wishitem > 0 %} {{wishitem}} {% endif %}</span></a>
             </li>
             {% else %}
             <li class="nav-item mx-2 {% if request.path == '/accounts/login/' %}active{% endif %}">
@@ -91,6 +92,7 @@
       {% block banner-slider %}{% endblock banner-slider %}
       {% block information %}{% endblock information %}
       {% block main-content %}{% endblock main-content %}
+      {% block payment-gateway %}{% endblock payment-gateway %}
 
       <footer class="container-fluid fixed-bottom bg-dark text-white text-center p-2 mt-5">Copyright<img src="{% static "app/images/icons/copyright.png"%}"  alt="copyright"></a>2023 All Rights Reserved</footer>
 
