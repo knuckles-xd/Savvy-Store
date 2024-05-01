@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.views import View
-from . models import Product, Customer , Cart , OrderPlaced , Payment
+from . models import Product, Customer , Cart , OrderPlaced , Payment, Wishlist
 from . forms import CustomerRegistrationForm, CustomerProfileForm
 from django.contrib import messages
 from django.db.models import Q
@@ -34,6 +34,7 @@ class CategoryTitle(View):
 class ProductDetail(View):
     def get(self,request,pk):
         product = Product.objects.get(pk=pk)
+        wishlist = Wishlist.objects.filter(Q(product = product) & Q(user = request.user))
         return render(request,"app/productDetail.html",locals())
     
     
@@ -134,7 +135,7 @@ class checkout(View):
         data = { "amount" : razoramount, "currency" : "INR", "receipt" : "order_receiptid_11"}
         payment_response = client.order.create(data=data)
         print(payment_response)
-        {'id': 'order_N45UeS6VdYhoDG', 'entity': 'order', 'amount': 17768, 'amount_paid': 0, 'amount_due': 17768, 'currency': 'USD', 'receipt': 'order_receiptid_11', 'offer_id': None, 'status': 'created', 'attempts': 0, 'notes': [], 'created_at': 1700780100}
+        {'id': 'order_O4pQr0KGxfXa8r', 'entity': 'order', 'amount': 13944, 'amount_paid': 0, 'amount_due': 13944, 'currency': 'INR', 'receipt': 'order_receiptid_11', 'offer_id': None, 'status': 'created', 'attempts': 0, 'notes': [], 'created_at': 1714478965}
         order_id = payment_response['id']
         order_status = payment_response['status']
         if order_status == 'created':
@@ -146,6 +147,32 @@ class checkout(View):
             )
             payment.save()
         return render(request,'app/checkout.html',locals())
+
+
+def payment_done(request):
+    order_id = request.GET.get('order_id')
+    payment_id = request.GET.get('payment_id')
+    cust_id = request.GET.get('cust_id')
+    print("payment done : oid = ",order_id, "pid = ",payment_id, "cid = ",cust_id)
+    user = request.user
+    customer = Customer.objects.get(id=cust_id)
+    payment = Payment.objects.get(razorpay_order_id = order_id)
+    payment.paid = True
+    payment.razorpay_payment_id = payment_id
+    payment.save()
+    cart = Cart.objects.filter(user = user)
+    for c in cart:
+        OrderPlaced(user = user, customer=customer, product = c.product, quantity = c.quantity, payment=payment).save()
+        c.delete()
+    return redirect("orders")
+
+def orders(request):
+    totalitem = 0
+    wishitem = 0
+    if request.user.is_authenticated:
+        totalitem = len(Cart.objects.filter(user = request.user))
+    order_placed = OrderPlaced.objects.filter(user = request.user)
+    return render(request, 'app/orders.html',locals())
 
 
 def plus_cart(request):
@@ -206,5 +233,27 @@ def remove_cart(request):
             'quantity':c.quantity,
             'amount':amount,
             'totalamount':totalamount
+        }
+        return JsonResponse(data)
+    
+def plus_wishlist(request):
+    if request.method == 'GET':
+        prod_id = request.GET['prod_id']
+        product= Product.objects.get(id = prod_id)
+        user = request.user
+        Wishlist(user = user, product = product).save()
+        data={
+            'message': 'Wishlist Added Successfully',
+        }
+        return JsonResponse(data)
+   
+def minus_wishlist(request):
+    if request.method == 'GET':
+        prod_id = request.GET['prod_id']
+        product= Product.objects.get(id = prod_id)
+        user = request.user
+        Wishlist.objects.filter(user = user, product = product).delete()
+        data={
+            'message': 'Wishlist Added Successfully',
         }
         return JsonResponse(data)
