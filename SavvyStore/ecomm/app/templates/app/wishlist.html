@@ -1,0 +1,32 @@
+{% extends 'app/base.html' %}
+{% load static %}
+{% block title %} Wishlist {% endblock title %}
+{% block main-content %}
+<div class="container my-5">
+    {% if product %}
+        <h1 class="text-center">Wishlist</h1>
+        <div class="row my-3">
+            <div class="col-sm-8 offset-2">
+                <div class="row">
+                    {% for prod in product %}
+                        <div class="col-sm-4 text-center  mb-4 hover-shadow">
+                            <a href="{% url 'product-detail' prod.product.id %}" class="btn ">
+                                <div class="products {% if forloop.last %}{% else %}mr-3{% endif %}">
+                                    <img src="{{prod.product.productImage.url}}"  width="300px" height="200px" />
+                                    <div class="fw-bold">{{prod.product.title}}</div>
+                                    <div class="fw-bold text-danger">${{prod.product.discountPrice}}/-
+                                        <small class="fw-light text-decoration-line-through">{{prod.product.originalPrice}}</small>
+                                    </div>
+                                </div>
+                            <hr>
+                            </a>
+                        </div>       
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <h1 class="text-center mb-5">Wishlist is Empty</h1>
+    {% endif %}
+</div>
+{% endblock main-content%}
