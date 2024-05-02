@@ -269,3 +269,8 @@ def minus_wishlist(request):
             'message': 'Wishlist Added Successfully',
         }
         return JsonResponse(data)
+    
+def search(request):
+    query = request.GET['search']
+    product = Product.objects.filter(Q(title__icontains=query))
+    return render(request, 'app/search.html',locals())
