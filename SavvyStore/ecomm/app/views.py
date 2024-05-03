@@ -10,29 +10,59 @@ from django.conf import settings
 
 # Create your views here.
 def home(request):
+    totalitem = 0
+    wishitem = 0
+    if request.user.is_authenticated:
+        totalitem = len(Cart.objects.filter(user = request.user))
+        wishitem = len(Wishlist.objects.filter(user=request.user))
     return render(request, 'app/home.html')
 
 def about(request):
+    totalitem = 0
+    wishitem = 0
+    if request.user.is_authenticated:
+        totalitem = len(Cart.objects.filter(user = request.user))
+        wishitem = len(Wishlist.objects.filter(user=request.user))
     return render(request,'app/about.html',locals())
 
 def contact(request):
+    totalitem = 0
+    wishitem = 0
+    if request.user.is_authenticated:
+        totalitem = len(Cart.objects.filter(user = request.user))
+        wishitem = len(Wishlist.objects.filter(user=request.user))
     return render(request,'app/contact.html',locals())
 
 
 class CategoryView(View):
     def get(self,request,val):
+        totalitem = 0
+        wishitem = 0
+        if request.user.is_authenticated:
+            totalitem = len(Cart.objects.filter(user = request.user))
+            wishitem = len(Wishlist.objects.filter(user=request.user))
         product = Product.objects.filter(category=val)
         title= Product.objects.filter(category=val).values('title')
         return render(request,"app/category.html",locals())
     
 class CategoryTitle(View):
     def get(self,request,val):
+        totalitem = 0
+        wishitem = 0
+        if request.user.is_authenticated:
+            totalitem = len(Cart.objects.filter(user = request.user))
+            wishitem = len(Wishlist.objects.filter(user=request.user))
         product = Product.objects.filter(title=val)
         title= Product.objects.filter(category=product[0].category).values('title')
         return render(request,"app/category.html",locals())
 
 class ProductDetail(View):
     def get(self,request,pk):
+        totalitem = 0
+        wishitem = 0
+        if request.user.is_authenticated:
+            totalitem = len(Cart.objects.filter(user = request.user))
+            wishitem = len(Wishlist.objects.filter(user=request.user))
         product = Product.objects.get(pk=pk)
         wishlist = Wishlist.objects.filter(Q(product = product) & Q(user = request.user))
         return render(request,"app/productDetail.html",locals())
@@ -40,8 +70,14 @@ class ProductDetail(View):
     
 class CustomerRegistrationView(View):
     def get(self,request):
+        totalitem = 0
+        wishitem = 0
+        if request.user.is_authenticated:
+            totalitem = len(Cart.objects.filter(user = request.user))
+            wishitem = len(Wishlist.objects.filter(user=request.user))
         form = CustomerRegistrationForm()
         return render(request,"app/customerregistration.html",locals())
+    
     def post(self,request):
         form = CustomerRegistrationForm(request.POST)
         if form.is_valid():
@@ -54,8 +90,14 @@ class CustomerRegistrationView(View):
     
 class ProfileView(View):
     def get(self,request):
+        totalitem = 0
+        wishitem = 0
+        if request.user.is_authenticated:
+            totalitem = len(Cart.objects.filter(user = request.user))
+            wishitem = len(Wishlist.objects.filter(user=request.user))
         form = CustomerProfileForm()
         return render(request,"app/profile.html",locals())
+    
     def post(self,request):
         form = CustomerProfileForm(request.POST)
         if form.is_valid():
@@ -74,14 +116,25 @@ class ProfileView(View):
         return render(request,"app/profile.html",locals())
 
 def address(request):
+    totalitem = 0
+    wishitem = 0
+    if request.user.is_authenticated:
+        totalitem = len(Cart.objects.filter(user = request.user))
+        wishitem = len(Wishlist.objects.filter(user=request.user))
     add = Customer.objects.filter(user=request.user)
     return render(request,"app/address.html",locals())
 
 class updateAddress(View):
     def get(self,request,pk):
+        totalitem = 0
+        wishitem = 0
+        if request.user.is_authenticated:
+            totalitem = len(Cart.objects.filter(user = request.user))
+            wishitem = len(Wishlist.objects.filter(user=request.user))
         add = Customer.objects.get(pk=pk)
         form = CustomerProfileForm(instance=add)
         return render(request,"app/updateAddress.html",locals())
+    
     def post(self, request, pk):
         form = CustomerProfileForm(request.POST)
         if form.is_valid():
@@ -100,6 +153,11 @@ class updateAddress(View):
 
 
 def message(request):
+    totalitem = 0
+    wishitem = 0
+    if request.user.is_authenticated:
+        totalitem = len(Cart.objects.filter(user = request.user))
+        wishitem = len(Wishlist.objects.filter(user=request.user))
     return render(request,'app/message.html',locals())
 
 def add_to_cart(request):
@@ -111,6 +169,11 @@ def add_to_cart(request):
 
 
 def show_cart(request):
+    totalitem = 0
+    wishitem = 0
+    if request.user.is_authenticated:
+        totalitem = len(Cart.objects.filter(user = request.user))
+        wishitem = len(Wishlist.objects.filter(user=request.user))
     user = request.user
     cart = Cart.objects.filter(user=user)
     amount = 0
@@ -122,6 +185,11 @@ def show_cart(request):
 
 class checkout(View):
     def get(self,request):
+        totalitem = 0
+        wishitem = 0
+        if request.user.is_authenticated:
+            totalitem = len(Cart.objects.filter(user = request.user))
+            wishitem = len(Wishlist.objects.filter(user=request.user))
         user = request.user
         add = Customer.objects.filter(user=user)
         cart_items=Cart.objects.filter(user=user)
@@ -171,6 +239,7 @@ def orders(request):
     wishitem = 0
     if request.user.is_authenticated:
         totalitem = len(Cart.objects.filter(user = request.user))
+        wishitem = len(Wishlist.objects.filter(user=request.user))
     order_placed = OrderPlaced.objects.filter(user = request.user)
     return render(request, 'app/orders.html',locals())
 
@@ -258,6 +327,7 @@ def plus_wishlist(request):
             'message': 'Wishlist Added Successfully',
         }
         return JsonResponse(data)
+  
    
 def minus_wishlist(request):
     if request.method == 'GET':
@@ -269,8 +339,14 @@ def minus_wishlist(request):
             'message': 'Wishlist Added Successfully',
         }
         return JsonResponse(data)
+   
     
 def search(request):
     query = request.GET['search']
+    totalitem = 0
+    wishitem = 0
+    if request.user.is_authenticated:
+        totalitem = len(Cart.objects.filter(user = request.user))
+        wishitem = len(Wishlist.objects.filter(user=request.user))
     product = Product.objects.filter(Q(title__icontains=query))
     return render(request, 'app/search.html',locals())
