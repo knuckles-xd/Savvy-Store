@@ -15,12 +15,14 @@ urlpatterns = [
     path('profile/',views.ProfileView.as_view(), name='profile'),
     path('address/',views.address, name='address'),
     path('updateAddress/<int:pk>', views.updateAddress.as_view(), name="updateAddress"),
+    path('search/', views.search, name='search'),
     path('message/',views.message,name="message"),
     
     
     path('add-to-cart/', views.add_to_cart, name='add-to-cart'),
     path('cart/', views.show_cart, name='showcart'),
     path('checkout/', views.checkout.as_view(), name='checkout'),
+    path('wishlist/', views.show_wishlist, name='showwishlist'),
     path('paymentdone/',views.payment_done,name='paymentdone'),
     path('orders/', views.orders, name='orders'),
     
