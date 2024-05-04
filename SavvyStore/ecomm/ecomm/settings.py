@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -129,3 +130,25 @@ EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
 RAZOR_KEY_ID = "rzp_test_8P99Up5TZDp9Hc"
 RAZOR_KEY_SECRET = "6l1qsmoWH0vTYi40rf9R99DE"
+
+
+JAZZMIN_SETTINGS = {
+    'site_logo' : "app/images/store.png",
+    'copyright' : 'Savvy Store',
+    'welcome_sign' : 'Welcome to the Savvy Store',
+    "icons": {
+        "auth.user": "fas fa-user",
+        "app.orderplaced": "fas fa-truck",
+        "app.wishlist": "fas fa-heart",
+        "app.customer": "fas fa-users",
+        "app.product": "fas fa-glasses",
+        "app.payment": "fas fa-wallet",
+        "app.cart" : "fas fa-store",
+    }, 
+}
+JAZZMIN_SETTINGS["show_ui_builder"] = True,
+
+JAZZMIN_UI_TWEAKS = {
+    "theme": "solar",
+    "dark_mode_theme": "darkly",
+}
