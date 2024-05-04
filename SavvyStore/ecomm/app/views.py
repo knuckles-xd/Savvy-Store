@@ -7,8 +7,11 @@ from django.db.models import Q
 from django.http import JsonResponse
 import razorpay
 from django.conf import settings
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
 
 # Create your views here.
+@login_required
 def home(request):
     totalitem = 0
     wishitem = 0
@@ -17,6 +20,8 @@ def home(request):
         wishitem = len(Wishlist.objects.filter(user=request.user))
     return render(request, 'app/home.html')
 
+
+@login_required
 def about(request):
     totalitem = 0
     wishitem = 0
@@ -25,6 +30,8 @@ def about(request):
         wishitem = len(Wishlist.objects.filter(user=request.user))
     return render(request,'app/about.html',locals())
 
+
+@login_required
 def contact(request):
     totalitem = 0
     wishitem = 0
@@ -34,6 +41,7 @@ def contact(request):
     return render(request,'app/contact.html',locals())
 
 
+method_decorator(login_required, name='dispatch')
 class CategoryView(View):
     def get(self,request,val):
         totalitem = 0
@@ -44,7 +52,9 @@ class CategoryView(View):
         product = Product.objects.filter(category=val)
         title= Product.objects.filter(category=val).values('title')
         return render(request,"app/category.html",locals())
-    
+
+  
+method_decorator(login_required, name='dispatch')  
 class CategoryTitle(View):
     def get(self,request,val):
         totalitem = 0
@@ -56,6 +66,8 @@ class CategoryTitle(View):
         title= Product.objects.filter(category=product[0].category).values('title')
         return render(request,"app/category.html",locals())
 
+
+method_decorator(login_required, name='dispatch')
 class ProductDetail(View):
     def get(self,request,pk):
         totalitem = 0
@@ -67,7 +79,8 @@ class ProductDetail(View):
         wishlist = Wishlist.objects.filter(Q(product = product) & Q(user = request.user))
         return render(request,"app/productDetail.html",locals())
     
-    
+ 
+  
 class CustomerRegistrationView(View):
     def get(self,request):
         totalitem = 0
@@ -87,7 +100,8 @@ class CustomerRegistrationView(View):
             messages.warning(request,"Error in Registration.")
         return render(request,"app/customerregistration.html",locals())
 
-    
+
+method_decorator(login_required, name='dispatch')    
 class ProfileView(View):
     def get(self,request):
         totalitem = 0
@@ -115,6 +129,8 @@ class ProfileView(View):
             messages.warning(request,"Sorry! Error in Data")
         return render(request,"app/profile.html",locals())
 
+
+@login_required
 def address(request):
     totalitem = 0
     wishitem = 0
@@ -124,6 +140,8 @@ def address(request):
     add = Customer.objects.filter(user=request.user)
     return render(request,"app/address.html",locals())
 
+
+method_decorator(login_required, name='dispatch')
 class updateAddress(View):
     def get(self,request,pk):
         totalitem = 0
@@ -152,6 +170,7 @@ class updateAddress(View):
         return redirect("address")
 
 
+@login_required
 def message(request):
     totalitem = 0
     wishitem = 0
@@ -160,6 +179,8 @@ def message(request):
         wishitem = len(Wishlist.objects.filter(user=request.user))
     return render(request,'app/message.html',locals())
 
+
+@login_required
 def add_to_cart(request):
     user = request.user
     product_id = request.GET.get('prod_id')
@@ -168,6 +189,7 @@ def add_to_cart(request):
     return redirect('/cart')
 
 
+@login_required
 def show_cart(request):
     totalitem = 0
     wishitem = 0
@@ -183,6 +205,8 @@ def show_cart(request):
     totalamount = amount + 10
     return render(request, 'app/addtocart.html',locals())
 
+
+method_decorator(login_required, name='dispatch')
 class checkout(View):
     def get(self,request):
         totalitem = 0
@@ -217,6 +241,7 @@ class checkout(View):
         return render(request,'app/checkout.html',locals())
 
 
+@login_required
 def payment_done(request):
     order_id = request.GET.get('order_id')
     payment_id = request.GET.get('payment_id')
@@ -234,6 +259,8 @@ def payment_done(request):
         c.delete()
     return redirect("orders")
 
+
+@login_required
 def orders(request):
     totalitem = 0
     wishitem = 0
@@ -244,6 +271,7 @@ def orders(request):
     return render(request, 'app/orders.html',locals())
 
 
+@login_required
 def plus_cart(request):
     if request.method == 'GET':
         prod_id = request.GET.get('prod_id')
@@ -265,6 +293,7 @@ def plus_cart(request):
         return JsonResponse(data)
 
    
+@login_required
 def minus_cart(request):
     if request.method == 'GET':
         prod_id = request.GET.get('prod_id')
@@ -285,7 +314,8 @@ def minus_cart(request):
         }
         return JsonResponse(data)
   
-     
+  
+@login_required     
 def remove_cart(request):
     if request.method == 'GET':
         prod_id = request.GET.get('prod_id')
@@ -305,7 +335,8 @@ def remove_cart(request):
         }
         return JsonResponse(data)
     
-    
+   
+@login_required 
 def show_wishlist(request):
     user = request.user
     totalitem = 0
@@ -317,6 +348,7 @@ def show_wishlist(request):
     return render(request, 'app/wishlist.html',locals())
 
 
+@login_required
 def plus_wishlist(request):
     if request.method == 'GET':
         prod_id = request.GET['prod_id']
@@ -328,7 +360,8 @@ def plus_wishlist(request):
         }
         return JsonResponse(data)
   
-   
+
+@login_required   
 def minus_wishlist(request):
     if request.method == 'GET':
         prod_id = request.GET['prod_id']
@@ -340,7 +373,8 @@ def minus_wishlist(request):
         }
         return JsonResponse(data)
    
-    
+
+@login_required    
 def search(request):
     query = request.GET['search']
     totalitem = 0
