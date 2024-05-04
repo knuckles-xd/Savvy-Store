@@ -4,6 +4,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib.auth import views as auth_view
 from .forms import LoginForm, MyPasswordChangeForm, MyPasswordResetForm, MySetPasswordForm
+from django.contrib import admin
 
 urlpatterns = [
     path('',views.home),
@@ -48,3 +49,8 @@ urlpatterns = [
     
      
 ]+static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+
+admin.site.site_header = "Savvy Store"
+admin.site.site_title = "Savvy Store"
+admin.site.site_index_title = " Welcome to Savvy Store"
