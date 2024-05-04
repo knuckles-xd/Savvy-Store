@@ -19,7 +19,7 @@
 
                     <div class="text-center text-alert fw-bold">
                     <small> Already have an account? 
-                        <a href="#" class="text-danger">Login Here!</a></small>
+                        <a href="{% url 'login' %}" class="text-danger">Login Here!</a></small>
                     </div>
                     {% if form.non_field_erros%}
                         {% for error in form.non_field_erros %}

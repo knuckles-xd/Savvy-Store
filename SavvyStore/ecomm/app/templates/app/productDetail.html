@@ -24,7 +24,7 @@
                 <input type="hidden" name="prod_id" value={{product.id}}>
                 <button type="submit"class="btn btn-primary shadow px-5 py-2 ms-4"><img src="{% static "app/images/icons/cart.gif"%}"  alt="cart" width="50" height="50"></button>
             </form>
-            <a href="#" class="btn btn-warning shadow px-5 py-3 ms-4">Buy Now</a>
+            <a href="{% url 'add-to-cart' %}?prod_id={{ product.id }}" class="btn btn-warning shadow px-5 py-3 ms-4">Buy Now</a>
             {% if wishlist %}
             <a pid = {{product.id}} class="minus-wishlist btn btn-danger shadow px-5 py-3 ms-4"><img src="{% static "app/images/icons/heart.png"%}"  alt="wishlist"></a>
             {% else %}

@@ -5,11 +5,11 @@
 {% block main-content %}
     <div class="container my-5">
         <div class="row">
-            <h3>Welcome <span class="text-capitalize">{{Saad}}</span></h3>
+            <h3>Welcome <span class="text-capitalize">{{request.user}}</span></h3>
             <div class="col-sm-2 border-end">
                 <ul class="list-unstyled">
-                    <li class="d-grid"><a href="#" class="btn btn-success">Create Profile</a></li>
-                    <li class="d-grid"><a href="#" class="btn">Personal Information</a></li>
+                    <li class="d-grid"><a href="{% url 'profile' %}" class="btn btn-success">Create Profile</a></li>
+                    <li class="d-grid"><a href="{% url 'address' %}" class="btn">Personal Information</a></li>
                 </ul>
             </div>
             <div class="col-sm-5 offset-sm-2">
